@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://us-solar-panel-savings-calc.enjoy-onepage.com/sitemap.xml
