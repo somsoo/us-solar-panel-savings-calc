@@ -576,14 +576,14 @@
   const valRoiPctEl = document.getElementById('valRoiPct');
 
   function calculate() {
-    const bill = Math.max(0, parseFloat(monthlyBillEl.value) || 0);
-    const kw = Math.max(0.5, parseFloat(systemSizeEl.value) || 0);
-    const cpw = Math.max(0.5, parseFloat(costPerWattEl.value) || 0);
-    const offset = Math.min(1.5, Math.max(0.05, (parseFloat(solarOffsetEl.value) || 0) / 100));
-    const itcPct = Math.min(0.5, Math.max(0, (parseFloat(fedCreditPctEl.value) || 0) / 100));
-    const rebate = Math.max(0, parseFloat(stateRebateEl.value) || 0);
-    const inflation = Math.max(0, (parseFloat(utilityInflationEl.value) || 0) / 100);
-    const degradation = Math.max(0, (parseFloat(panelDegradationEl.value) || 0) / 100);
+    const bill = Math.max(0, Math.max(0, parseFloat(monthlyBillEl.value) || 0));
+    const kw = Math.max(0.5, Math.max(0, parseFloat(systemSizeEl.value) || 0));
+    const cpw = Math.max(0.5, Math.max(0, parseFloat(costPerWattEl.value) || 0));
+    const offset = Math.min(1.5, Math.max(0.05, (Math.max(0, parseFloat(solarOffsetEl.value) || 0)) / 100));
+    const itcPct = Math.min(0.5, Math.max(0, (Math.max(0, parseFloat(fedCreditPctEl.value) || 0)) / 100));
+    const rebate = Math.max(0, Math.max(0, parseFloat(stateRebateEl.value) || 0));
+    const inflation = Math.max(0, (Math.max(0, parseFloat(utilityInflationEl.value) || 0)) / 100);
+    const degradation = Math.max(0, (Math.max(0, parseFloat(panelDegradationEl.value) || 0)) / 100);
 
     const grossCost = kw * 1000 * cpw;
     const itcAmount = grossCost * itcPct;
