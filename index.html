@@ -1,28 +1,608 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Solar Panel Savings &amp; Payback Calculator - Under maintenance</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="site-status" content="maintenance">
-<meta name="description" content="This tool is temporarily offline while it is rebuilt.">
+<title>Solar Panel Savings Calculator</title>
+<meta name="description" content="Calculate solar payback periods, federal tax credits, and utility savings.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://us-solar-panel-savings-calc.enjoy-onepage.com/">
+<meta name="theme-color" content="#d97706">
+<link rel="icon" href="/favicon.ico">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Solar Panel Savings Calculator">
+<meta property="og:title" content="Solar Panel Savings Calculator">
+<meta property="og:description" content="Calculate solar payback periods, federal tax credits, and utility savings.">
+<meta property="og:url" content="https://us-solar-panel-savings-calc.enjoy-onepage.com/">
+<meta property="og:image" content="https://us-solar-panel-savings-calc.enjoy-onepage.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Solar Panel Savings Calculator">
+<meta name="twitter:description" content="Calculate solar payback periods, federal tax credits, and utility savings.">
+<meta name="twitter:image" content="https://us-solar-panel-savings-calc.enjoy-onepage.com/og-image.png">
+<link rel="alternate" type="application/rss+xml" title="Solar Savings RSS" href="https://us-solar-panel-savings-calc.enjoy-onepage.com/rss.xml">
+<link rel="sitemap" type="application/xml" href="https://us-solar-panel-savings-calc.enjoy-onepage.com/sitemap.xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://us-solar-panel-savings-calc.enjoy-onepage.com/#webapp",
+      "name": "Solar Panel Savings Calculator",
+      "url": "https://us-solar-panel-savings-calc.enjoy-onepage.com/",
+      "applicationCategory": "EnergyApplication",
+      "operatingSystem": "All",
+      "inLanguage": "en",
+      "description": "Interactive residential solar panel savings calculator evaluating 30 percent federal tax credits (ITC), net system cost, payback years, and 25-year electric bill savings.",
+      "image": "https://us-solar-panel-savings-calc.enjoy-onepage.com/og-image.png",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://us-solar-panel-savings-calc.enjoy-onepage.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does the 30 percent federal solar tax credit (ITC) work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The federal Residential Clean Energy Credit allows homeowners to deduct 30 percent of total solar equipment and installation costs directly from federal taxes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the average payback period for residential solar panels?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most homeowners reach complete financial breakeven between 6 and 10 years, depending on local electricity rates, sun hours, and state utility net metering policies."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much can rooftop solar panels save over 25 years?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A typical 8 kW residential solar system saves between 30,000 and 60,000 dollars in cumulative electricity bills over a standard 25-year panel warranty lifespan."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6946654760086847" crossorigin="anonymous"></script>
 <style>
-  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #0f172a; }
-  main { max-width: 560px; margin: 12vh auto; padding: 32px 24px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; }
-  h1 { font-size: 1.4rem; margin: 0 0 12px; }
-  p { line-height: 1.6; color: #334155; }
-  a { color: #1d4ed8; font-weight: 600; }
-  .tag { display: inline-block; font-size: .8rem; font-weight: 700; color: #92400e; background: #fef3c7; border-radius: 999px; padding: 4px 10px; margin-bottom: 14px; }
+  :root {
+    --primary: #d97706;
+    --primary-hover: #b45309;
+    --border: #e2e8f0;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    line-height: 1.5;
+    padding: 16px;
+  }
+  .app-container {
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  header h1 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 8px;
+  }
+  header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 768px) {
+    .grid-layout { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+  }
+  input[type="number"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  input[type="number"]:focus, select:focus {
+    border-color: var(--primary);
+  }
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .summary-banner {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    color: #ffffff;
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .summary-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .summary-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 6px 0;
+  }
+  .summary-sub {
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+  .dual-stat {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: #f1f5f9;
+    padding: 14px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .stat-card .v {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+  .stat-card .l {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .breakdown-table tr {
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .breakdown-table tr:last-child {
+    border-bottom: none;
+  }
+  .breakdown-table td {
+    padding: 10px 0;
+  }
+  .breakdown-table td.k {
+    color: var(--text-muted);
+  }
+  .breakdown-table td.v {
+    text-align: right;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+  .info-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .info-section h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-main);
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 640px) {
+    .info-grid { grid-template-columns: 1fr; }
+  }
+  .how-step {
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .how-step .step-num {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .how-step h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .how-step p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .faq-item {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .faq-item h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+  }
+  .faq-item p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  footer {
+    text-align: center;
+    padding: 24px 0 12px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+  footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  footer a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1000;
+  }
+  .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
-<main>
-  <span class="tag">Under maintenance</span>
-  <h1>Solar Panel Savings &amp; Payback Calculator</h1>
-  <p>This tool is temporarily offline. We found that the previous version did not work the way it was described, so we took it down while we rebuild it properly.</p>
-  <p>Please check back later.</p>
-  <p><a href="https://enjoy-onepage.com/">Browse our other free tools</a></p>
-</main>
+
+<div class="app-container">
+  <header>
+    <h1>Solar Panel Savings Calculator</h1>
+    <p>Estimate federal tax credits (30%), payback timeline, and 25-year electricity savings</p>
+  </header>
+
+  <!-- ADSENSE START: top -->
+  <div class="manual-ad-box ad-top-banner" style="width: 100%; max-width: 960px; min-height: 100px; margin: 0 auto 20px; text-align: center; background: transparent;">
+    <ins class="adsbygoogle"
+         style="display:block; min-height: 100px;"
+         data-ad-client="ca-pub-6946654760086847"
+         data-ad-slot="3824727725"
+         data-ad-format="horizontal"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <!-- ADSENSE END: top -->
+
+  <div class="grid-layout">
+    <!-- Controls Column -->
+    <section class="card">
+      <h2 class="card-title">System & Utility Cost Setup</h2>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label for="monthlyBill">Average Monthly Electric Bill ($)</label>
+          <input type="number" id="monthlyBill" value="190" min="20" step="10">
+        </div>
+        <div class="form-group">
+          <label for="systemSize">System Size (kW DC)</label>
+          <input type="number" id="systemSize" value="8.0" min="2" max="30" step="0.5">
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label for="costPerWatt">Installation Cost ($/Watt)</label>
+          <input type="number" id="costPerWatt" value="2.90" min="1.50" max="5.00" step="0.05">
+        </div>
+        <div class="form-group">
+          <label for="solarOffset">Electric Bill Offset (%)</label>
+          <input type="number" id="solarOffset" value="90" min="10" max="120" step="5">
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label for="fedCreditPct">Federal ITC Credit (%)</label>
+          <input type="number" id="fedCreditPct" value="30" min="0" max="30" step="1">
+        </div>
+        <div class="form-group">
+          <label for="stateRebate">State / Utility Rebates ($)</label>
+          <input type="number" id="stateRebate" value="1000" min="0" step="250">
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label for="utilityInflation">Annual Utility Rate Hike (%)</label>
+          <input type="number" id="utilityInflation" value="3.5" min="0" max="10" step="0.1">
+        </div>
+        <div class="form-group">
+          <label for="panelDegradation">Annual Panel Loss (%)</label>
+          <input type="number" id="panelDegradation" value="0.5" min="0" max="2" step="0.1">
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Column -->
+    <section class="card">
+      <h2 class="card-title">Payback & Financial Return</h2>
+
+      <div class="summary-banner">
+        <div class="summary-title">Estimated Payback Horizon</div>
+        <div class="summary-value" id="valPaybackYears">7.1 Years</div>
+        <div class="summary-sub" id="valNetCostSub">Net System Investment: $15,240 after 30% ITC</div>
+      </div>
+
+      <div class="dual-stat">
+        <div class="stat-card">
+          <div class="v" id="valLifetimeSavings">$49,285</div>
+          <div class="l">25-Yr Net Utility Savings</div>
+        </div>
+        <div class="stat-card">
+          <div class="v" id="valFedCreditAmount">$6,960</div>
+          <div class="l">Federal 30% Tax Credit</div>
+        </div>
+      </div>
+
+      <table class="breakdown-table">
+        <tbody>
+          <tr>
+            <td class="k">Gross Turnkey Installation Cost:</td>
+            <td class="v" id="valGrossCost">$23,200.00</td>
+          </tr>
+          <tr>
+            <td class="k">Federal Clean Energy Tax Credit (30%):</td>
+            <td class="v" id="valFedCredit" style="color: #059669;">-$6,960.00</td>
+          </tr>
+          <tr>
+            <td class="k">State / Utility Rebates:</td>
+            <td class="v" id="valRebates" style="color: #059669;">-$1,000.00</td>
+          </tr>
+          <tr>
+            <td class="k">Year 1 Electricity Savings:</td>
+            <td class="v" id="valYear1Savings">$2,052.00 / yr</td>
+          </tr>
+          <tr>
+            <td class="k">25-Year Return on Investment (ROI):</td>
+            <td class="v" id="valRoiPct" style="color: #059669;">323.4% Total ROI</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <!-- ADSENSE START: mid -->
+  <div class="manual-ad-box ad-mid-banner" style="width: 100%; max-width: 960px; min-height: 250px; margin: 20px auto; text-align: center; background: transparent;">
+    <ins class="adsbygoogle"
+         style="display:block; min-height: 250px;"
+         data-ad-client="ca-pub-6946654760086847"
+         data-ad-slot="1186914926"
+         data-ad-format="rectangle,horizontal"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <!-- ADSENSE END: mid -->
+
+  <section class="info-section">
+    <h2>How Rooftop Solar Payback Works</h2>
+    <div class="info-grid">
+      <div class="how-step">
+        <span class="step-num">1</span>
+        <h3>30% Federal ITC</h3>
+        <p>The Inflation Reduction Act guarantees a 30% dollar-for-dollar tax credit against federal taxes owed.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-num">2</span>
+        <h3>Inflation Hedge</h3>
+        <p>Solar locks in low energy rates, shielding households against rising fossil fuel and utility grid price hikes.</p>
+      </div>
+      <div class="how-step">
+        <span class="step-num">3</span>
+        <h3>25-Year Warranties</h3>
+        <p>Tier-1 solar photovoltaic panels produce clean free power for decades past their full payback date.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item"><h3>How does the 30 percent federal solar tax credit (ITC) work?</h3><p>The federal Residential Clean Energy Credit allows homeowners to deduct 30 percent of total solar equipment and installation costs directly from federal taxes.</p></div>
+      <div class="faq-item"><h3>What is the average payback period for residential solar panels?</h3><p>Most homeowners reach complete financial breakeven between 6 and 10 years, depending on local electricity rates, sun hours, and state utility net metering policies.</p></div>
+      <div class="faq-item"><h3>How much can rooftop solar panels save over 25 years?</h3><p>A typical 8 kW residential solar system saves between 30,000 and 60,000 dollars in cumulative electricity bills over a standard 25-year panel warranty lifespan.</p></div>
+    </div>
+  </section>
+
+  <!-- ADSENSE START: bottom -->
+  <div class="manual-ad-box ad-bottom-banner" style="width: 100%; max-width: 960px; min-height: 280px; margin: 24px auto 16px; text-align: center; background: transparent;">
+    <ins class="adsbygoogle"
+         style="display:block; min-height: 280px;"
+         data-ad-client="ca-pub-6946654760086847"
+         data-ad-slot="3416334507"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <!-- ADSENSE END: bottom -->
+
+  <div id="global-ux-toast" class="toast" role="status" aria-live="polite"></div>
+
+  <footer>
+    <p>&copy; 2026 Solar Panel Savings Calculator. All rights reserved.</p>
+    <p style="margin-top: 8px;">
+      <a href="/privacy.html">Privacy Policy</a> &bull;
+      <a href="/terms.html">Terms of Service</a> &bull;
+      <a href="/disclaimer.html">Disclaimer</a>
+    </p>
+  </footer>
+</div>
+
+<!-- LOGIC START -->
+<script>
+(function() {
+  const monthlyBillEl = document.getElementById('monthlyBill');
+  const systemSizeEl = document.getElementById('systemSize');
+  const costPerWattEl = document.getElementById('costPerWatt');
+  const solarOffsetEl = document.getElementById('solarOffset');
+  const fedCreditPctEl = document.getElementById('fedCreditPct');
+  const stateRebateEl = document.getElementById('stateRebate');
+  const utilityInflationEl = document.getElementById('utilityInflation');
+  const panelDegradationEl = document.getElementById('panelDegradation');
+
+  const valPaybackYearsEl = document.getElementById('valPaybackYears');
+  const valNetCostSubEl = document.getElementById('valNetCostSub');
+  const valLifetimeSavingsEl = document.getElementById('valLifetimeSavings');
+  const valFedCreditAmountEl = document.getElementById('valFedCreditAmount');
+  const valGrossCostEl = document.getElementById('valGrossCost');
+  const valFedCreditEl = document.getElementById('valFedCredit');
+  const valRebatesEl = document.getElementById('valRebates');
+  const valYear1SavingsEl = document.getElementById('valYear1Savings');
+  const valRoiPctEl = document.getElementById('valRoiPct');
+
+  function calculate() {
+    const bill = Math.max(0, parseFloat(monthlyBillEl.value) || 0);
+    const kw = Math.max(0.5, parseFloat(systemSizeEl.value) || 0);
+    const cpw = Math.max(0.5, parseFloat(costPerWattEl.value) || 0);
+    const offset = Math.min(1.5, Math.max(0.05, (parseFloat(solarOffsetEl.value) || 0) / 100));
+    const itcPct = Math.min(0.5, Math.max(0, (parseFloat(fedCreditPctEl.value) || 0) / 100));
+    const rebate = Math.max(0, parseFloat(stateRebateEl.value) || 0);
+    const inflation = Math.max(0, (parseFloat(utilityInflationEl.value) || 0) / 100);
+    const degradation = Math.max(0, (parseFloat(panelDegradationEl.value) || 0) / 100);
+
+    const grossCost = kw * 1000 * cpw;
+    const itcAmount = grossCost * itcPct;
+    const netCost = Math.max(0, grossCost - itcAmount - rebate);
+
+    const annualBill = bill * 12;
+    const yr1Savings = annualBill * offset;
+
+    // 25-year cumulative simulation
+    let cumulativeSavings = 0;
+    let breakevenYear = 25;
+    let foundBreakeven = false;
+
+    for (let yr = 1; yr <= 25; yr++) {
+      const inflationMultiplier = Math.pow(1 + inflation, yr - 1);
+      const degradationMultiplier = Math.pow(1 - degradation, yr - 1);
+      const yearSavings = yr1Savings * inflationMultiplier * degradationMultiplier;
+
+      cumulativeSavings += yearSavings;
+
+      if (!foundBreakeven && cumulativeSavings >= netCost) {
+        // Linear interpolation for exact fractional year
+        const priorCum = cumulativeSavings - yearSavings;
+        const needed = netCost - priorCum;
+        const frac = yearSavings > 0 ? (needed / yearSavings) : 0;
+        breakevenYear = (yr - 1) + frac;
+        foundBreakeven = true;
+      }
+    }
+
+    const netLifetimeProfit = cumulativeSavings - netCost;
+    const totalRoi = netCost > 0 ? (netLifetimeProfit / netCost) * 100 : 0;
+
+    valPaybackYearsEl.textContent = foundBreakeven ? `${breakevenYear.toFixed(1)} Years` : '> 25 Years';
+    valNetCostSubEl.textContent = `Net System Investment: $${Math.round(netCost).toLocaleString('en-US')} after 30% ITC`;
+
+    valLifetimeSavingsEl.textContent = '$' + Math.round(netLifetimeProfit).toLocaleString('en-US');
+    valFedCreditAmountEl.textContent = '$' + Math.round(itcAmount).toLocaleString('en-US');
+
+    valGrossCostEl.textContent = '$' + grossCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    valFedCreditEl.textContent = '-$' + itcAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    valRebatesEl.textContent = rebate > 0 ? '-$' + rebate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '$0.00';
+    valYear1SavingsEl.textContent = '$' + yr1Savings.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' / yr';
+    valRoiPctEl.textContent = `${totalRoi.toFixed(1)}% Total Net ROI`;
+  }
+
+  [monthlyBillEl, systemSizeEl, costPerWattEl, solarOffsetEl, fedCreditPctEl, stateRebateEl, utilityInflationEl, panelDegradationEl].forEach(el => {
+    el.addEventListener('input', calculate);
+  });
+
+  calculate();
+})();
+</script>
+<!-- LOGIC END -->
+
 </body>
 </html>
